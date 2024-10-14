@@ -41,11 +41,16 @@ export class CharacterSheetProvider extends Component<
     }
   }
 
+  save = (newValue: CharacterSheetData) => {
+    this.setState({ CharacterSheetData: {...newValue}})
+    localStorage.setItem("character_sheet_data.json", JSON.stringify({...newValue}));
+  }
+
   render() {
     const { CharacterSheetData } = this.state;
 
     return (
-      <CharacterSheetContext.Provider value={{ value: this.state.CharacterSheetData, updateValue: (newValue: CharacterSheetData) => {this.setState({ CharacterSheetData: {...newValue}})}}}>
+      <CharacterSheetContext.Provider value={{ value: this.state.CharacterSheetData, updateValue: (newValue: CharacterSheetData) => { this.save(newValue)}}}>
         {this.props.children}
       </CharacterSheetContext.Provider>
     );
