@@ -41,7 +41,7 @@ class Collapsible extends Component<CollapsibleProps, CollapsibleState> {
         <div
           className="collapsible"
           style={{
-            maxHeight: isOpen ? '1000px' : '0',
+            maxHeight: isOpen ? 'unset' : '0',
           }}
         >
           <div className="collapsible-content">

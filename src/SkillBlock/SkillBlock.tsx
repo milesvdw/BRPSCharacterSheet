@@ -31,7 +31,7 @@ class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
   }
 
   handleCheckboxChange = (index: number) => {
-    const updatedSkill = this.props.skills[this.state.editingSkillIndex];
+    const updatedSkill = this.props.skills[index];
     updatedSkill.checked = !updatedSkill.checked;
     this.props.updateSkill(index, updatedSkill);
   };
@@ -82,10 +82,8 @@ class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
         {skills.map((skill, index) => {
           if((this.props.tag && skill.tags.indexOf(this.props.tag) < 0) || (!this.props.tag && skill.tags.length != 0)) return <></>;
           else return (
-            <div key={index} className="SkillItem"
-              onClick={() => {this.setState({ editingSkillIndex: index, editingSkillValue: skills[index].value, editingSkillName: skills[index].name})}}
-            >
-              <div className={"SkillName"}>
+            <div key={index} className="SkillItem">
+              <div className={"SkillName"} onClick={() => {this.setState({ editingSkillIndex: index, editingSkillValue: skills[index].value, editingSkillName: skills[index].name})}}>
                 {this.state.editingSkillIndex === index ? 
                   (
                     <div className={"SkillValueEdit"}>
@@ -116,8 +114,8 @@ class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
                 )
                 :
                 (
-                  <div className={"SkillValue"}>
-                    <span><b>{skills[index].value}</b>/{Math.floor(skills[index].value/2)}/{Math.floor(skills[index].value/5)}%</span>
+                  <div className={"SkillValue"} onClick={() => {this.setState({ editingSkillIndex: index, editingSkillValue: skills[index].value, editingSkillName: skills[index].name})}}>
+                    <span><b>{skills[index].value}%</b></span><span>({Math.floor(skills[index].value/2)}% / {Math.floor(skills[index].value/5)}%)</span>
                   </div>
                 )
                }

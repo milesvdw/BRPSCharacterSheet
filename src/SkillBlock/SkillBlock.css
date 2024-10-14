@@ -5,7 +5,7 @@
   margin: .5em 0em;
   border-radius: .8em;
   padding: 1em;
-  }
+}
 
 .SkillCategoryTitle {
   text-transform:capitalize;
@@ -45,7 +45,17 @@
 }
 
 .SkillValue {
-  width: 10em;
+  width: 11em;
   margin-right: 5px;
   margin-left: auto;
+  display: flex;
+  gap: 2em;
+}
+
+.SkillValue :last-child {
+  width: 7em;
+}
+
+.SkillValue :first-child {
+  width: 2em;
 }

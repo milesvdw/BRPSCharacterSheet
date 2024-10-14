@@ -1,0 +1,34 @@
+.BaseStats {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 4px 14px 2px #0003;
+    margin: .5em 0em;
+    border-radius: .8em;
+    padding: 1em;
+    width: 25em;
+  }
+
+.StatBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: left;
+
+    padding: .5em 0;
+}
+
+.StatItem {
+    border-bottom: 1px solid lightgrey;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5em 0;
+}
+
+.StatItem :first-child {
+    width: 10em;
+}
+
+.StatItem :last-child {
+    width: 10em;
+}

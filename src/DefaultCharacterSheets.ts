@@ -10,7 +10,8 @@ export type Power = {
     intensity: string,
     cost: number,
     description: string,
-    checked: boolean
+    checked: boolean,
+    tags: string[]
 }
 export type InventoryItem = {
     name: string;
@@ -67,72 +68,32 @@ export const defaultMagicWorld = {
         {
             "name": "Bargain",
             "value": 5,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "Command",
-            "value": 5,
-            "tags": [],
+            "tags": [ "social" ],
             "checked": false
         }, {
             "name": "Disguise",
             "value": 1,
-            "tags": [],
+            "tags": [ "social" ],
             "checked": false
         }, {
             "name": "Etiquette",
             "value": 30,
-            "tags": [],
+            "tags": [ "social" ],
             "checked": false
         }, {
             "name": "Fast Talk",
             "value": 11,
-            "tags": [],
+            "tags": [ "social" ],
             "checked": false
         }, {
             "name": "Perform",
             "value": 5,
-            "tags": [],
+            "tags": [ "social" ],
             "checked": false
         }, {
             "name": "Persuade",
             "value": 15,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "Status",
-            "value": 15,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "Teach",
-            "value": 10,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "Art",
-            "value": 5,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "Craft",
-            "value": 5,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "Demolition",
-            "value": 1,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "Fine Manipulation",
-            "value": 5,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "HeavyMachine",
-            "value": 1,
-            "tags": [],
+            "tags": [ "social" ],
             "checked": false
         }, {
             "name": "Repair",
@@ -152,72 +113,52 @@ export const defaultMagicWorld = {
         }, {
             "name": "First Aid",
             "value": 30,
-            "tags": [],
+            "tags": [ "science" ],
             "checked": false
         }, {
             "name": "Gambling",
             "value": 36,
-            "tags": [],
+            "tags": [ "social" ],
             "checked": false
         }, {
             "name": "Literacy",
             "value": 38,
-            "tags": [],
+            "tags": [ "knowledge" ],
             "checked": false
         }, {
             "name": "Medicine",
             "value": 26,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "Psychotherapy",
-            "value": 1,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "Strategy",
-            "value": 1,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "Technical",
-            "value": 5,
-            "tags": [],
+            "tags": [ "science" ],
             "checked": false
         }, {
             "name": "Insight",
             "value": 37,
-            "tags": [],
+            "tags": [ "perception" ],
             "checked": false
         }, {
             "name": "Listen",
             "value": 26,
-            "tags": [],
+            "tags": [ "perception" ],
             "checked": false
         }, {
             "name": "Navigate",
             "value": 10,
-            "tags": [],
+            "tags": [ "perception" ],
             "checked": false
         }, {
             "name": "Research",
             "value": 12,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "Sense",
-            "value": 10,
-            "tags": [],
+            "tags": [ "knowledge" ],
             "checked": false
         }, {
             "name": "Spot",
             "value": 53,
-            "tags": [],
+            "tags": [ "perception" ],
             "checked": false
         }, {
             "name": "Track",
             "value": 10,
-            "tags": [],
+            "tags": [ "perception" ],
             "checked": false
         }, {
             "name": "Climb",
@@ -235,23 +176,8 @@ export const defaultMagicWorld = {
             "tags": [],
             "checked": false
         }, {
-            "name": "Hide",
-            "value": 10,
-            "tags": [],
-            "checked": false
-        }, {
             "name": "Jump",
             "value": 25,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "Pilot",
-            "value": 1,
-            "tags": [],
-            "checked": false
-        }, {
-            "name": "Projection",
-            "value": 22,
             "tags": [],
             "checked": false
         }, {
@@ -277,11 +203,6 @@ export const defaultMagicWorld = {
         }, {
             "name": "Dodge",
             "value": 22,
-            "tags": ["combat"],
-            "checked": false
-        }, {
-            "name": "Martial Arts",
-            "value": 1,
             "tags": ["combat"],
             "checked": false
         }, {
@@ -413,35 +334,40 @@ export const defaultMagicWorld = {
         "intensity": "1d3",
         "cost": 3,
         "description": "",
-        "checked": false
+        "checked": false,
+        "tags": [ "somaturgy" ]
     }, {
         "name": "Bruisebane",
         "value": 11,
         "intensity": "1/day",
         "cost": 3,
         "description": "",
-        "checked": false
+        "checked": false,
+        "tags": [ "somaturgy" ]
     }, {
         "name": "Minor Flame",
         "value": 7,
         "intensity": "",
         "cost": 2,
         "description": "",
-        "checked": false
+        "checked": false,
+        "tags": [ "pyromancy" ]
     }, {
         "name": "Resist Flame",
         "value": 20,
         "intensity": "1 Fire Armor",
         "cost": 2,
         "description": "",
-        "checked": false
+        "checked": false,
+        "tags": [ "pyromancy" ]
     }, {
         "name": "Blinding Light",
         "value": 5,
         "intensity": "",
         "cost": 6,
         "description": "",
-        "checked": false
+        "checked": false,
+        "tags": [ "pyromancy" ]
     }
     ]
 }

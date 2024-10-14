@@ -9,3 +9,16 @@
     flex-direction: row;
     gap: 1em;
 }
+
+.CharacterHeader {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.UploadDownload {
+    display: flex;
+    gap: 1em;
+    align-items: end;
+}

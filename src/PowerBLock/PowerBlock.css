@@ -11,6 +11,17 @@
   text-transform:capitalize;
 }
 
+.PowerValueEdit {
+  display: flex;
+  flex-direction: row;
+}
+
+.PowerValueEdit input {
+  width: 2em;
+  margin-right: 8em;
+  text-align: right;
+}
+
 .PowerCategoryHeader {
   display: flex;
   flex-direction: row;
@@ -18,7 +29,7 @@
   justify-content: center;
 }
 
-.PowerCategoryHeader {
+.PowerCategoryHeader :last-child {
   margin-left: auto;
 }
 
@@ -31,7 +42,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: .5em 0;
 }
 
 .PowerName {
@@ -43,4 +54,14 @@
   width: 10em;
   margin-right: 5px;
   margin-left: auto;
+  display: flex;
+  gap: 2em;
+}
+
+.PowerValue :last-child {
+  width: 7em;
+}
+
+.PowerValue :first-child {
+  width: 2em;
 }
