@@ -12,6 +12,10 @@ export type Power = {
     description: string,
     checked: boolean
 }
+export type InventoryItem = {
+    name: string;
+    amount: string;
+}
 
 export const defaultMagicWorld = {
     "personal": {

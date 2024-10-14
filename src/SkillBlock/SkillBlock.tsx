@@ -10,6 +10,7 @@ interface SkillBlockProps {
   tag?: string;
   skills: Skill[];
   updateSkill: (index: number, skill: Skill) => void;
+  deleteSkill: (index: number) => void;
 }
 
 interface SkillBlockState {
@@ -56,7 +57,14 @@ class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
     if (event.key === 'Enter') {
       this.saveEditingSkill();
     }
+    if (event.key === 'Escape') {
+      this.discardEdits();
+    }
   };
+
+  discardEdits = () => {
+    this.setState({editingSkillIndex: -1});
+  }
 
   createNewSkill = () => {
     this.props.updateSkill(this.props.skills.length, this.generateNewSkill(this.props.tag ? [this.props.tag] : []));

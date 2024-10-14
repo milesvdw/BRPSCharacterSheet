@@ -8,6 +8,7 @@
 .IconContainer svg {
     display: block;
     margin: 0.1em;
+    height: 1em;
     background-color: transparent;
     color: var(--primary-strong);
 }

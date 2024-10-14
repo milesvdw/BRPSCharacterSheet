@@ -1,0 +1,22 @@
+.InventoryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .5em 0;
+}
+
+.InventoryItemName {
+  flex-grow: 1;
+  margin-right: 10px;
+  width: 100%;
+}
+
+.InventoryItemAmount {
+  margin-right: 8px;
+  width: 5em;
+  text-wrap: wrap;
+}
+
+.InventoryItemNameEdit input {
+  width: 100%;
+}
