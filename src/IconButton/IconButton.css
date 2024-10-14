@@ -1,0 +1,30 @@
+.IconContainer {
+    width: 1em;
+    height: 1em;
+    cursor: pointer;
+    padding: 0em 0.25em 0.15em 0em;
+}
+
+.IconContainer svg {
+    display: block;
+    margin: 0.1em;
+    background-color: transparent;
+    color: var(--primary-strong);
+}
+
+.IconContainer svg:hover, .IconContainer svg:active {
+    color: var(--primary-color);
+}
+
+.IconContainer:hover {
+    color: var(--primary-color);
+    border-radius: .2em;
+}
+
+.IconContainer:active {
+    color: var(--primary-color);
+}
+
+.Disabled {
+    cursor:not-allowed;
+}

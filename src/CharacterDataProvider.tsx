@@ -1,35 +1,26 @@
 import React, { Component } from "react";
 import CharacterSheetContext, { CharacterSheetData } from "./CharacterSheetContext";
+import { defaultMagicWorld } from "./DefaultCharacterSheets";
 
 // Define types for props and state
 interface CharacterSheetProviderProps {
   children: any
 }
 interface CharacterSheetProviderState {
-  CharacterSheetData?: CharacterSheetData;
+  CharacterSheetData: CharacterSheetData;
 }
 
 export class CharacterSheetProvider extends Component<
   CharacterSheetProviderProps,
   CharacterSheetProviderState
 > {
-  // Singleton instance
-  private static instance: CharacterSheetProvider | null = null;
-
   constructor(props: CharacterSheetProviderProps) {
     super(props);
 
     // Initialize state
     this.state = {
-      CharacterSheetData: undefined,
+      CharacterSheetData: defaultMagicWorld,
     };
-
-    // Ensure singleton
-    if (!CharacterSheetProvider.instance) {
-      CharacterSheetProvider.instance = this;
-    }
-
-    return CharacterSheetProvider.instance;
   }
 
   componentDidMount() {
@@ -46,10 +37,7 @@ export class CharacterSheetProvider extends Component<
         this.setState({ CharacterSheetData: parsedData });
       } catch (error) {
         console.error("Error parsing character sheet data:", error);
-        alert("Failed to load character sheet data.");
       }
-    } else {
-      alert("Character sheet data not found.");
     }
   }
 
@@ -57,7 +45,7 @@ export class CharacterSheetProvider extends Component<
     const { CharacterSheetData } = this.state;
 
     return (
-      <CharacterSheetContext.Provider value={CharacterSheetData}>
+      <CharacterSheetContext.Provider value={{ value: this.state.CharacterSheetData, updateValue: (newValue: CharacterSheetData) => {this.setState({ CharacterSheetData: {...newValue}})}}}>
         {this.props.children}
       </CharacterSheetContext.Provider>
     );

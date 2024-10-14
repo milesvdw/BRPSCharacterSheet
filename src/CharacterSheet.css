@@ -1,0 +1,11 @@
+.SkillBlocks {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.SkillsTable {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}

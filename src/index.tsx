@@ -7,5 +7,6 @@ const App: React.FC = () =>
 (<CharacterSheetProvider>
     <CharacterSheet />
 </CharacterSheetProvider>);
+{/* <div>Hello world</div>; */}
 
 ReactDOM.render(<App />, document.getElementById('root'));

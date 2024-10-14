@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import CharacterSheetContext, { CharacterSheetData } from './CharacterSheetContext';
+import SkillBlock from './SkillBlock/SkillBlock';
+import './CharacterSheet.css'
+import { Skill } from './DefaultCharacterSheets';
 
 // Define the state interface for the component
 interface CharacterSheetState {
@@ -13,33 +16,59 @@ class CharacterSheet extends Component<{}, CharacterSheetState> {
 
   constructor(props: {}) {
     super(props);
-    this.state = {
-      characterSheet: null,
-    };
   }
 
-  // Once the component mounts, we set the context into the state
-  componentDidMount() {
-    const characterSheet = this.context;
-    if (characterSheet) {
-      this.setState({ characterSheet });
-    }
+  updateSkill = (index: number, skill: Skill) => {
+    const oldContext = this.context?.value!;
+    oldContext.skills[index] = skill;
+    this.context?.updateValue(oldContext);
   }
 
   render() {
-    const { characterSheet } = this.state;
-
-    // If the character sheet data is not available, show a loading message
-    if (!characterSheet) {
-      return <p>Loading character sheet data...</p>;
-    }
 
     return (
       <div>
-        <h1>Character Sheet</h1>
-        <pre>
-          <code>{JSON.stringify(characterSheet, null, 2)}</code>
-        </pre>
+        <h1>{this.context?.value.personal.name} : {this.context?.value.personal.player}</h1>
+        <div className="SkillsTable">
+          <div className="SkillBlocks">
+            <SkillBlock
+              updateSkill={this.updateSkill}
+              tag="language"
+              skills={this.context?.value.skills!} />
+            <SkillBlock
+              updateSkill={this.updateSkill}
+              tag="science"
+              skills={this.context?.value.skills!} />
+            <SkillBlock
+              updateSkill={this.updateSkill}
+              tag="knowledge"
+              skills={this.context?.value.skills!} />
+            <SkillBlock
+              updateSkill={this.updateSkill}
+              tag="craft"
+              skills={this.context?.value.skills!} />
+          </div>
+          <div className="SkillBlocks">
+            <SkillBlock
+                updateSkill={this.updateSkill}
+                tag="combat"
+                skills={this.context?.value.skills!} />
+            <SkillBlock
+              updateSkill={this.updateSkill}
+              tag="weapon"
+              skills={this.context?.value.skills!} />
+            <SkillBlock
+              updateSkill={this.updateSkill}
+              tag="flaw"
+              skills={this.context?.value.skills!} />
+          </div>
+          <div className="SkillBlocks">
+            <SkillBlock
+                updateSkill={this.updateSkill}
+                skills={this.context?.value.skills!} />
+          </div>
+        </div>
+        
       </div>
     );
   }

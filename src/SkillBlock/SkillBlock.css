@@ -1,0 +1,51 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 4px 14px 2px #0003;
+  margin: .5em 0em;
+  border-radius: .8em;
+  padding: 1em;
+  }
+
+.SkillCategoryTitle {
+  text-transform:capitalize;
+}
+
+.SkillValueEdit {
+  display: flex;
+  flex-direction: row;
+}
+
+.SkillCategoryHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.SkillCategoryHeader :last-child {
+  margin-left: auto;
+}
+
+.Container svg {
+  width: 1em;
+  height: 1em;
+}
+
+.SkillItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.SkillName {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.SkillValue {
+  width: 10em;
+  margin-right: 5px;
+  margin-left: auto;
+}
