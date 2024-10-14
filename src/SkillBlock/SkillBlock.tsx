@@ -72,7 +72,7 @@ class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
           <IconButton onClick={this.createNewSkill}><Plus /></IconButton>
         </div>
         {skills.map((skill, index) => {
-          if(this.props.tag && skill.tags.indexOf(this.props.tag) < 0) return <></>;
+          if((this.props.tag && skill.tags.indexOf(this.props.tag) < 0) || (!this.props.tag && skill.tags.length != 0)) return <></>;
           else return (
             <div key={index} className="SkillItem"
               onClick={() => {this.setState({ editingSkillIndex: index, editingSkillValue: skills[index].value, editingSkillName: skills[index].name})}}
