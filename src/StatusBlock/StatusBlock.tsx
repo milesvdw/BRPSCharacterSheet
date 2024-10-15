@@ -116,7 +116,7 @@ class BaseStats extends Component<BaseStatsProps, BaseStatsState> {
           </span>
         </div>
         <div className="PowerBar fantasy-border">
-          <div className={`Power ${curHp === maxhp ? "Full" : ""}`} style={{width: `${this.props.status.power * 100 / maxhp}%`}}></div>
+          <div className={`Power ${this.props.status.power === this.props.stats.pow ? "Full" : ""}`} style={{width: `${this.props.status.power * 100 / this.props.stats.pow}%`}}></div>
           <div className="Spent" style={{width: `${100 - (this.props.status.power * 100 / this.props.stats.pow)}%`}}></div>
         </div>
         <div className="HealthHeader">
