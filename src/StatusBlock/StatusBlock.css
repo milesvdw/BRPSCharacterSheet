@@ -110,5 +110,12 @@
 }
 
 .Wounds {
-    min-height: 5em;
+    min-height: 9.5em;
+}
+
+.StatusValue {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    align-items: center;
 }

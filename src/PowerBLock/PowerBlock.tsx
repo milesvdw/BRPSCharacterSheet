@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './PowerBlock.css';
 import Plus from '../Icons/Plus';
 import IconButton from '../IconButton/IconButton';
@@ -89,10 +89,10 @@ class PowerBlock extends Component<PowerBlockProps, PowerBlockState> {
           <IconButton onClick={this.createNewPower}><Plus /></IconButton>
         </div>
         {powers.map((power, index) => {
-          if((this.props.tag && power.tags.indexOf(this.props.tag) < 0) || (!this.props.tag && power.tags.length != 0)) return <></>;
+          if((this.props.tag && power.tags.indexOf(this.props.tag) < 0) || (!this.props.tag && power.tags.length != 0)) return <Fragment key={index}></Fragment>;
           else return (
-            <>
-            <div key={index} className="PowerItem">
+            <Fragment key={index}>
+            <div className="PowerItem">
               <div onClick={() => {this.setState({ editingPowerIndex: index, editingPowerName: powers[index].name})}} className={"PowerName"}>
                 {this.state.editingPowerIndex === index && this.state.editingPowerName !== undefined ? 
                   (
@@ -238,7 +238,7 @@ class PowerBlock extends Component<PowerBlockProps, PowerBlockState> {
                   )
                 }
             </div>
-            </>
+            </Fragment>
           );
         })}
       </div>

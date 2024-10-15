@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './SkillBlock.css';
 import { Skill } from '../DefaultCharacterSheets';
 import Plus from '../Icons/Plus';
@@ -72,7 +72,6 @@ class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
 
   render() {
     const { skills } = this.props;
-    console.log(`skillName: ${this.state.editingSkillName} skillValue: ${this.state.editingSkillValue}`)
 
     return (
       <div className="Container">
@@ -81,7 +80,7 @@ class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
           <IconButton onClick={this.createNewSkill}><Plus /></IconButton>
         </div>
         {skills.map((skill, index) => {
-          if((this.props.tag && skill.tags.indexOf(this.props.tag) < 0) || (!this.props.tag && skill.tags.length != 0)) return <></>;
+          if((this.props.tag && skill.tags.indexOf(this.props.tag) < 0) || (!this.props.tag && skill.tags.length != 0)) return <Fragment key={index}></Fragment>;
           else return (
             <div key={index} className="SkillItem">
               <div className={"SkillName"} onClick={() => {this.setState({ editingSkillIndex: index, editingSkillName: skills[index].name})}}>

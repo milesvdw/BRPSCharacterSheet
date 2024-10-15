@@ -5,6 +5,7 @@ import Plus from '../Icons/Plus';
 import IconButton from '../IconButton/IconButton';
 import Save from '../Icons/Save';
 import Trash from '../Icons/Trash';
+import UnfocusHandler from '../UnfocusHandler/UnfocusHandler';
 
 
 interface InventoryProps {
@@ -15,8 +16,8 @@ interface InventoryProps {
 
 interface InventoryState {
   editingItemIndex: number;
-  editingItemAmount: string;
-  editingItemName: string;
+  editingItemAmount?: string;
+  editingItemName?: string;
 }
 
 class SkillBlock extends Component<InventoryProps, InventoryState> {
@@ -24,18 +25,16 @@ class SkillBlock extends Component<InventoryProps, InventoryState> {
     super(props);
 
     this.state = {
-      editingItemName: "",
       editingItemIndex: -1,
-      editingItemAmount: ""
     }
   }
 
   saveEditingItem = () => {
     const updatedItem = this.props.items[this.state.editingItemIndex];
-    updatedItem.amount = this.state.editingItemAmount;
-    updatedItem.name = this.state.editingItemName;
+    if(this.state.editingItemAmount !== undefined) updatedItem.amount = this.state.editingItemAmount;
+    if(this.state.editingItemName !== undefined) updatedItem.name = this.state.editingItemName;
     this.props.updateItem(this.state.editingItemIndex, updatedItem);
-    this.setState({editingItemIndex: -1})
+    this.discardEdits();
   }
 
   generateNewItem = (): InventoryItem => {
@@ -56,10 +55,10 @@ class SkillBlock extends Component<InventoryProps, InventoryState> {
   };
 
   discardEdits = () => {
-    this.setState({editingItemIndex: -1});
+    this.setState({editingItemIndex: -1, editingItemAmount: undefined, editingItemName: undefined});
   }
 
-  createNewSkill = () => {
+  createNewItem = () => {
     this.props.updateItem(this.props.items.length, this.generateNewItem());
   }
 
@@ -69,47 +68,60 @@ class SkillBlock extends Component<InventoryProps, InventoryState> {
     return (
       <div className="Container">
         <div className="SkillCategoryHeader">
-          <IconButton onClick={this.createNewSkill}><Plus /></IconButton>
+          <IconButton onClick={this.createNewItem}><Plus /></IconButton>
         </div>
         {items.map((item, index) => {
           return (
-            <div key={index} className="InventoryItem"
-              onClick={() => {this.setState({ editingItemIndex: index, editingItemAmount: items[index].amount, editingItemName: items[index].name})}}
-            >
+            <div key={index} className="InventoryItem">
 
                
-              {this.state.editingItemIndex === index ? 
+              {this.state.editingItemIndex === index && this.state.editingItemAmount !== undefined ? 
                 (
                   <div className={"InventoryItemAmount"}>
-                    <input autoFocus 
-                      value={this.state.editingItemAmount} 
-                      onChange={(e) => {this.setState({editingItemAmount: e.target.value})}}
-                      onKeyDown={this.handleKeyDown}>
-                    </input>
+                    <UnfocusHandler
+                      handleUnfocus={this.saveEditingItem}
+                    >
+                      <input 
+                        autoFocus 
+                        className="TransparentInput InputLeft"
+                        value={this.state.editingItemAmount} 
+                        onChange={(e) => {this.setState({editingItemAmount: e.target.value})}}
+                        onKeyDown={this.handleKeyDown}>
+                      </input>
+                    </UnfocusHandler>
+                    
                   </div>
                 )
                 :
                 (
-                  <div className={"InventoryItemAmount"}>
-                    <span><b>{items[index].amount}</b></span>
+                  <div className={"InventoryItemAmount"}
+                    onClick={() => {this.setState({editingItemIndex: index, editingItemAmount: this.props.items[index].amount})}}
+                  >
+                    <span ><b>{items[index].amount}</b></span>
                   </div>
                 )
               }
 
               <div className={"InventoryItemName"}>
-                {this.state.editingItemIndex === index ? 
+                {this.state.editingItemIndex === index && this.state.editingItemName !== undefined ? 
                   (
                     <div className={"InventoryItemNameEdit"}>
-                      <input autoFocus 
-                        value={this.state.editingItemName} 
-                        onChange={(e) => {this.setState({editingItemName: e.target.value})}}
-                        onKeyDown={this.handleKeyDown}>
-                      </input>
+                      <UnfocusHandler
+                        handleUnfocus={this.saveEditingItem}
+                      >
+                        <input 
+                          autoFocus
+                          className="TransparentInput InputLeft"
+                          value={this.state.editingItemName} 
+                          onChange={(e) => {this.setState({editingItemName: e.target.value})}}
+                          onKeyDown={this.handleKeyDown}>
+                        </input>
+                      </UnfocusHandler>
                     </div>
                   )
                   :
                   (
-                    <span>{items[index].name}</span>
+                    <span onClick={() => {this.setState({editingItemIndex: index, editingItemName: this.props.items[index].name})}}>{items[index].name}</span>
                   )
                 }
                 

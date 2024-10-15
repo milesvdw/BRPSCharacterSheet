@@ -12,39 +12,34 @@ interface BaseStatsProps {
 }
 
 interface BaseStatsState {
-  editingHp: boolean;
-  editingHpValue: number;
-  editingPower: boolean;
-  editingPowerValue: number;
-  editingWounds: boolean;
-  editingWoundValue: string
+  editingHpValue?: number;
+  editingPowerValue?: number;
+  editingWoundValue?: string
+  editingLuckValue?: number
 }
 
 class BaseStats extends Component<BaseStatsProps, BaseStatsState> {
   constructor(props: BaseStatsProps) {
     super(props);
+
     this.state = {
-      editingHp: false,
-      editingPower: false,
-      editingWounds: false,
-      editingWoundValue: this.props.status.wounds,
-      editingHpValue: this.props.status.hp,
-      editingPowerValue: this.props.status.power
+
     }
   }
 
   saveEditingStatus = () => {
     const updatedStatus = this.props.status;
-    updatedStatus.hp = this.state.editingHpValue;
-    updatedStatus.power = this.state.editingPowerValue;
-    updatedStatus.wounds = this.state.editingWoundValue;
+    if(this.state.editingHpValue !== undefined) updatedStatus.hp = this.state.editingHpValue;
+    if(this.state.editingPowerValue !== undefined) updatedStatus.power = this.state.editingPowerValue;
+    if(this.state.editingWoundValue !== undefined) updatedStatus.wounds = this.state.editingWoundValue;
+    if(this.state.editingLuckValue !== undefined) updatedStatus.luck = this.state.editingLuckValue;
     this.props.updateStatus(updatedStatus);
     this.discardEdits();
   }
 
   
   discardEdits = () => {
-    this.setState({editingHp: false, editingPower: false, editingWounds: false, editingHpValue: this.props.status.hp, editingPowerValue: this.props.status.power, editingWoundValue: this.props.status.wounds})
+    this.setState({editingHpValue: undefined, editingPowerValue: undefined, editingWoundValue: undefined, editingLuckValue: undefined})
   }
   
   handleKeyDown = (event: any) => {
@@ -57,15 +52,19 @@ class BaseStats extends Component<BaseStatsProps, BaseStatsState> {
   };
 
   beginEditPower = (event: any) => {
-    this.setState({editingPower: true, editingHp: false, editingWounds: false})
+    this.setState({editingPowerValue: this.props.status.power})
   }
 
   beginEditHp = (event: any) => {
-    this.setState({editingHp: true, editingPower: false, editingWounds: false})
+    this.setState({editingHpValue: this.props.status.hp})
   }
 
   beginEditWounds = (event: any) => {
-    this.setState({editingHp: false, editingPower: false, editingWounds: true})
+    this.setState({editingWoundValue: this.props.status.wounds})
+  }
+
+  beginEditLuck = (event: any) => {
+    this.setState({editingLuckValue: this.props.status.luck})
   }
 
 
@@ -76,14 +75,18 @@ class BaseStats extends Component<BaseStatsProps, BaseStatsState> {
       <div className={"StatusBlock"}>
         <div className="HealthHeader">
           <strong>Health:</strong> 
-          <span>{this.state.editingHp ? 
-            <input 
-              autoFocus
-              className="TransparentInput"
-              value={this.state.editingHpValue}
-              onChange={(e) => {this.setState({editingHpValue: parseInt(e.target.value)})}}
-              onKeyDown={this.handleKeyDown}
-            /> :
+          <span  className="StatusValue">{this.state.editingHpValue !== undefined ? 
+            <UnfocusHandler
+              handleUnfocus={this.saveEditingStatus}
+            >
+              <input 
+                autoFocus
+                className="TransparentInput"
+                value={this.state.editingHpValue}
+                onChange={(e) => {this.setState({editingHpValue: parseInt(e.target.value)})}}
+                onKeyDown={this.handleKeyDown}
+              />
+            </UnfocusHandler> :
             <strong 
               onClick={this.beginEditHp}>{curHp}
             </strong>} / {<strong>{maxhp}</strong>}
@@ -95,14 +98,18 @@ class BaseStats extends Component<BaseStatsProps, BaseStatsState> {
         </div>
         <div className="HealthHeader">
           <strong>Power:</strong>
-          <span>{this.state.editingPower ?
-            <input
-              autoFocus
-              className="TransparentInput"
-              value={this.state.editingPowerValue}
-              onChange={(e) => {this.setState({editingPowerValue: parseInt(e.target.value)})}}
-              onKeyDown={this.handleKeyDown}
-            /> :
+          <span  className="StatusValue">{this.state.editingPowerValue !== undefined ?
+            <UnfocusHandler
+              handleUnfocus={this.saveEditingStatus}
+            >
+              <input
+                autoFocus
+                className="TransparentInput"
+                value={this.state.editingPowerValue}
+                onChange={(e) => {this.setState({editingPowerValue: parseInt(e.target.value)})}}
+                onKeyDown={this.handleKeyDown}
+              />
+            </UnfocusHandler> :
               <strong
                 onClick={this.beginEditPower}>{this.props.status.power}
                 </strong>} / {<strong>{this.props.stats.pow}</strong>}
@@ -112,6 +119,26 @@ class BaseStats extends Component<BaseStatsProps, BaseStatsState> {
           <div className="Power" style={{width: `${this.props.status.power * 100 / maxhp}%`}}></div>
           <div className="Spent" style={{width: `${100 - (this.props.status.power * 100 / this.props.stats.pow)}%`}}></div>
         </div>
+        <div className="HealthHeader">
+          <strong>Luck:</strong>
+          <span className="StatusValue">{this.state.editingLuckValue !== undefined ?
+            <UnfocusHandler
+              handleUnfocus={this.saveEditingStatus}
+            >
+              <input
+                autoFocus
+                className="TransparentInput"
+                value={this.state.editingLuckValue}
+                onChange={(e) => {this.setState({editingLuckValue: parseInt(e.target.value)})}}
+                onKeyDown={this.handleKeyDown}
+              />
+            </UnfocusHandler>
+             :
+              <strong
+                onClick={this.beginEditLuck}>{this.props.status.luck}
+                </strong>} / {<strong>100</strong>}
+          </span>
+        </div>
         
         <b>
           Wounds:
@@ -120,7 +147,7 @@ class BaseStats extends Component<BaseStatsProps, BaseStatsState> {
           className="Wounds"
           onClick={this.beginEditWounds}
         >
-          {this.state.editingWounds ? 
+          {this.state.editingWoundValue !== undefined ? 
             <UnfocusHandler
               handleUnfocus={this.saveEditingStatus}
             >
