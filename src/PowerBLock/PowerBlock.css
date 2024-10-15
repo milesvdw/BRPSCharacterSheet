@@ -57,6 +57,11 @@
   gap: 2em;
 }
 
+.PowerValue.Small {
+  width: 5em;
+  text-align: right;
+}
+
 .PowerValue :last-child {
   width: 7em;
 }

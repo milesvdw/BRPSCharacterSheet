@@ -161,7 +161,7 @@ class PowerBlock extends Component<PowerBlockProps, PowerBlockState> {
                 )
                 :
                 (
-                  <div className={"SkillValue"} onClick={() => {this.setState({ editingPowerIndex: index, editingPowerCost: powers[index].cost })}}>
+                  <div className={"PowerValue Small"} onClick={() => {this.setState({ editingPowerIndex: index, editingPowerCost: powers[index].cost })}}>
                     <b>{powers[index].cost}pp</b>
                   </div>
                 )
@@ -190,7 +190,6 @@ class PowerBlock extends Component<PowerBlockProps, PowerBlockState> {
                   </div>
                 )
                }
-               
                
               <div className={"PowerValue"}>
                   <span><b>{(powers[index].value+this.props.power*5)}%</b></span><span>({Math.floor((powers[index].value+this.props.power*5)/2)}% / {Math.floor((powers[index].value+this.props.power*5)/5)}%)</span>
