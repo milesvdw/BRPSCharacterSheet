@@ -19,7 +19,6 @@
 .PowerValueEdit input {
   width: 2em;
   margin-right: 8em;
-  text-align: right;
 }
 
 .PowerCategoryHeader {
@@ -64,4 +63,16 @@
 
 .PowerValue :first-child {
   width: 2em;
+}
+
+.PowerDescription {
+  font-weight: 200;
+  margin-left: 5%;
+  margin-bottom: 1em;
+  font-weight: 200;
+}
+
+.PowerDescription input {
+  width: 80%;
+  font-weight: 200;
 }

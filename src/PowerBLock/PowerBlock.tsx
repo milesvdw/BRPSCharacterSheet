@@ -4,6 +4,7 @@ import Plus from '../Icons/Plus';
 import IconButton from '../IconButton/IconButton';
 import Save from '../Icons/Save';
 import { Power } from '../DefaultCharacterSheets';
+import UnfocusHandler from '../UnfocusHandler/UnfocusHandler';
 
 
 interface PowerBlockProps {
@@ -16,8 +17,11 @@ interface PowerBlockProps {
 
 interface PowerBlockState {
   editingPowerIndex: number;
-  editingPowerValue: number;
-  editingPowerName: string;
+  editingPowerValue?: number;
+  editingPowerName?: string;
+  editingPowerCost?: number;
+  editingPowerIntensity?: string;
+  editingPowerDescription?: string;
 }
 
 class PowerBlock extends Component<PowerBlockProps, PowerBlockState> {
@@ -25,9 +29,7 @@ class PowerBlock extends Component<PowerBlockProps, PowerBlockState> {
     super(props);
 
     this.state = {
-      editingPowerName: "",
       editingPowerIndex: -1,
-      editingPowerValue: 0
     }
   }
 
@@ -39,10 +41,13 @@ class PowerBlock extends Component<PowerBlockProps, PowerBlockState> {
 
   saveEditingPower = () => {
     const updatedPower = this.props.powers[this.state.editingPowerIndex];
-    updatedPower.value = this.state.editingPowerValue;
-    updatedPower.name = this.state.editingPowerName;
+    if(this.state.editingPowerValue !== undefined) updatedPower.value = this.state.editingPowerValue;
+    if(this.state.editingPowerName !== undefined) updatedPower.name = this.state.editingPowerName;
+    if(this.state.editingPowerCost !== undefined) updatedPower.cost = this.state.editingPowerCost;
+    if(this.state.editingPowerIntensity !== undefined) updatedPower.intensity = this.state.editingPowerIntensity;
+    if(this.state.editingPowerDescription !== undefined) updatedPower.description = this.state.editingPowerDescription;
     this.props.updatePower(this.state.editingPowerIndex, updatedPower);
-    this.setState({editingPowerIndex: -1})
+    this.discardEdits();
   }
 
   generateNewPower = (tags: string[]) => {
@@ -67,7 +72,7 @@ class PowerBlock extends Component<PowerBlockProps, PowerBlockState> {
   };
 
   discardEdits = () => {
-    this.setState({editingPowerIndex: -1});
+    this.setState({editingPowerIndex: -1, editingPowerName: undefined, editingPowerValue: undefined, editingPowerCost: undefined, editingPowerIntensity: undefined, editingPowerDescription: undefined });
   }
 
   createNewPower = () => {
@@ -86,16 +91,23 @@ class PowerBlock extends Component<PowerBlockProps, PowerBlockState> {
         {powers.map((power, index) => {
           if((this.props.tag && power.tags.indexOf(this.props.tag) < 0) || (!this.props.tag && power.tags.length != 0)) return <></>;
           else return (
+            <>
             <div key={index} className="PowerItem">
-              <div onClick={() => {this.setState({ editingPowerIndex: index, editingPowerValue: powers[index].value, editingPowerName: powers[index].name})}} className={"PowerName"}>
-                {this.state.editingPowerIndex === index ? 
+              <div onClick={() => {this.setState({ editingPowerIndex: index, editingPowerName: powers[index].name})}} className={"PowerName"}>
+                {this.state.editingPowerIndex === index && this.state.editingPowerName !== undefined ? 
                   (
                     <div className={""}>
-                      <input autoFocus 
-                        value={this.state.editingPowerName} 
-                        onChange={(e) => {this.setState({editingPowerName: e.target.value})}}
-                        onKeyDown={this.handleKeyDown}>
-                      </input>
+                      <UnfocusHandler
+                        handleUnfocus={this.saveEditingPower}
+                      >
+                        <input 
+                          autoFocus 
+                          className="TransparentInput InputLeft"
+                          value={this.state.editingPowerName} 
+                          onChange={(e) => {this.setState({editingPowerName: e.target.value})}}
+                          onKeyDown={this.handleKeyDown}>
+                        </input>
+                      </UnfocusHandler>
                     </div>
                   )
                   :
@@ -105,20 +117,75 @@ class PowerBlock extends Component<PowerBlockProps, PowerBlockState> {
                 }
                 
                </div>
-               
-               {this.state.editingPowerIndex === index ? 
+
+
+               {this.state.editingPowerIndex === index && this.state.editingPowerIntensity !== undefined ? 
                 (
-                  <div className={"PowerValueEdit"}>
-                    <input autoFocus 
-                      value={this.state.editingPowerValue} 
-                      onChange={(e) => {this.setState({editingPowerValue: parseInt(e.target.value)})}}
-                      onKeyDown={this.handleKeyDown}>
-                    </input>
+                  <div className={"SkillValueEdit"}>
+                    <UnfocusHandler
+                      handleUnfocus={this.saveEditingPower}
+                    >
+                      <input 
+                        autoFocus 
+                        className="TransparentInput InputLeft"
+                        value={this.state.editingPowerIntensity} 
+                        onChange={(e) => {this.setState({editingPowerIntensity: e.target.value})}}
+                        onKeyDown={this.handleKeyDown}>
+                      </input>
+                    </UnfocusHandler>
                   </div>
                 )
                 :
                 (
-                  <div onClick={() => {this.setState({ editingPowerIndex: index, editingPowerValue: powers[index].value, editingPowerName: powers[index].name})}} className={"PowerValue"}>
+                  <div className={"PowerName"} onClick={() => {this.setState({ editingPowerIndex: index, editingPowerIntensity: powers[index].intensity })}}>
+                    <b>{powers[index].intensity}</b>
+                  </div>
+                )
+               }
+               
+               {this.state.editingPowerIndex === index && this.state.editingPowerCost !== undefined ? 
+                (
+                  <div className={"SkillValueEdit"}>
+                    <UnfocusHandler
+                      handleUnfocus={this.saveEditingPower}
+                    >
+                      <input 
+                        autoFocus 
+                        className="TransparentInput InputLeft"
+                        value={this.state.editingPowerCost} 
+                        onChange={(e) => {this.setState({editingPowerCost: parseInt(e.target.value)})}}
+                        onKeyDown={this.handleKeyDown}>
+                      </input>
+                    </UnfocusHandler>
+                  </div>
+                )
+                :
+                (
+                  <div className={"SkillValue"} onClick={() => {this.setState({ editingPowerIndex: index, editingPowerCost: powers[index].cost })}}>
+                    <b>{powers[index].cost}pp</b>
+                  </div>
+                )
+               }
+
+               {this.state.editingPowerIndex === index && this.state.editingPowerValue !== undefined ? 
+                (
+                  <div className={"PowerValueEdit"}>
+                    <UnfocusHandler
+                      handleUnfocus={this.saveEditingPower}
+                    >
+                      <input 
+                        autoFocus 
+                        className="TransparentInput InputLeft"
+                        value={this.state.editingPowerValue} 
+                        onChange={(e) => {this.setState({editingPowerValue: parseInt(e.target.value)})}}
+                        onKeyDown={this.handleKeyDown}>
+                      </input>
+                    </UnfocusHandler>
+                  </div>
+                )
+                :
+                (
+                  <div onClick={() => {this.setState({ editingPowerIndex: index, editingPowerValue: powers[index].value })}} className={"PowerValue"}>
                     <span><b>{powers[index].value}%</b></span>
                   </div>
                 )
@@ -146,6 +213,32 @@ class PowerBlock extends Component<PowerBlockProps, PowerBlockState> {
                 )
               }
             </div>
+            <div className="PowerDescription">
+              {this.state.editingPowerIndex === index && this.state.editingPowerDescription !== undefined ? 
+                  (
+                    <div className={"PowerDescriptionEdit"}>
+                      <UnfocusHandler
+                        handleUnfocus={this.saveEditingPower}
+                      >
+                        <input 
+                          autoFocus 
+                          className="TransparentInput InputLeft"
+                          value={this.state.editingPowerDescription} 
+                          onChange={(e) => {this.setState({editingPowerDescription: e.target.value})}}
+                          onKeyDown={this.handleKeyDown}>
+                        </input>
+                      </UnfocusHandler>
+                    </div>
+                  )
+                  :
+                  (
+                    <div className={"PowerName"} onClick={() => {this.setState({ editingPowerIndex: index, editingPowerDescription: powers[index].description })}}>
+                      <span>{powers[index].description || "no description"}</span>
+                    </div>
+                  )
+                }
+            </div>
+            </>
           );
         })}
       </div>

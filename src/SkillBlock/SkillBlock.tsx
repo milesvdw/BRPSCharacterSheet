@@ -4,6 +4,7 @@ import { Skill } from '../DefaultCharacterSheets';
 import Plus from '../Icons/Plus';
 import IconButton from '../IconButton/IconButton';
 import Save from '../Icons/Save';
+import UnfocusHandler from '../UnfocusHandler/UnfocusHandler';
 
 
 interface SkillBlockProps {
@@ -15,8 +16,8 @@ interface SkillBlockProps {
 
 interface SkillBlockState {
   editingSkillIndex: number;
-  editingSkillValue: number;
-  editingSkillName: string;
+  editingSkillValue?: number;
+  editingSkillName?: string;
 }
 
 class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
@@ -24,9 +25,7 @@ class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
     super(props);
 
     this.state = {
-      editingSkillName: "",
       editingSkillIndex: -1,
-      editingSkillValue: 0
     }
   }
 
@@ -38,16 +37,17 @@ class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
 
   saveEditingSkill = () => {
     const updatedSkill = this.props.skills[this.state.editingSkillIndex];
-    updatedSkill.value = this.state.editingSkillValue;
-    updatedSkill.name = this.state.editingSkillName;
+    if(this.state.editingSkillValue !== undefined) updatedSkill.value = this.state.editingSkillValue;
+    if(this.state.editingSkillName !== undefined) updatedSkill.name = this.state.editingSkillName;
     this.props.updateSkill(this.state.editingSkillIndex, updatedSkill);
-    this.setState({editingSkillIndex: -1})
+    this.discardEdits()
   }
 
   generateNewSkill = (tags: string[]) => {
     return {
       name: "",
       value: 0,
+      cost: 1,
       checked: false,
       tags: tags
     }
@@ -63,7 +63,7 @@ class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
   };
 
   discardEdits = () => {
-    this.setState({editingSkillIndex: -1});
+    this.setState({editingSkillIndex: -1, editingSkillName: undefined, editingSkillValue: undefined});
   }
 
   createNewSkill = () => {
@@ -72,6 +72,7 @@ class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
 
   render() {
     const { skills } = this.props;
+    console.log(`skillName: ${this.state.editingSkillName} skillValue: ${this.state.editingSkillValue}`)
 
     return (
       <div className="Container">
@@ -83,15 +84,22 @@ class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
           if((this.props.tag && skill.tags.indexOf(this.props.tag) < 0) || (!this.props.tag && skill.tags.length != 0)) return <></>;
           else return (
             <div key={index} className="SkillItem">
-              <div className={"SkillName"} onClick={() => {this.setState({ editingSkillIndex: index, editingSkillValue: skills[index].value, editingSkillName: skills[index].name})}}>
-                {this.state.editingSkillIndex === index ? 
+              <div className={"SkillName"} onClick={() => {this.setState({ editingSkillIndex: index, editingSkillName: skills[index].name})}}>
+                {this.state.editingSkillIndex === index && this.state.editingSkillName !== undefined ? 
                   (
                     <div className={"SkillValueEdit"}>
-                      <input autoFocus 
-                        value={this.state.editingSkillName} 
-                        onChange={(e) => {this.setState({editingSkillName: e.target.value})}}
-                        onKeyDown={this.handleKeyDown}>
-                      </input>
+                      <UnfocusHandler
+                        handleUnfocus={this.saveEditingSkill}
+                      >
+                        <input 
+                          autoFocus 
+                          className="TransparentInput InputLeft"
+                          value={this.state.editingSkillName} 
+                          onChange={(e) => {this.setState({editingSkillName: e.target.value})}}
+                          onKeyDown={this.handleKeyDown}>
+                        </input>
+                      </UnfocusHandler>
+                      
                     </div>
                   )
                   :
@@ -100,21 +108,27 @@ class SkillBlock extends Component<SkillBlockProps, SkillBlockState> {
                   )
                 }
                 
-               </div>
-               
-               {this.state.editingSkillIndex === index ? 
+              </div>
+
+              {this.state.editingSkillIndex === index && this.state.editingSkillValue !== undefined ? 
                 (
                   <div className={"SkillValueEdit"}>
-                    <input autoFocus 
-                      value={this.state.editingSkillValue} 
-                      onChange={(e) => {this.setState({editingSkillValue: parseInt(e.target.value)})}}
-                      onKeyDown={this.handleKeyDown}>
-                    </input>
+                    <UnfocusHandler
+                      handleUnfocus={this.saveEditingSkill}
+                    >
+                      <input 
+                        autoFocus 
+                        className="TransparentInput InputLeft"
+                        value={this.state.editingSkillValue} 
+                        onChange={(e) => {this.setState({editingSkillValue: parseInt(e.target.value)})}}
+                        onKeyDown={this.handleKeyDown}>
+                      </input>
+                    </UnfocusHandler>
                   </div>
                 )
                 :
                 (
-                  <div className={"SkillValue"} onClick={() => {this.setState({ editingSkillIndex: index, editingSkillValue: skills[index].value, editingSkillName: skills[index].name})}}>
+                  <div className={"SkillValue"} onClick={() => {this.setState({ editingSkillIndex: index, editingSkillValue: skills[index].value })}}>
                     <span><b>{skills[index].value}%</b></span><span>({Math.floor(skills[index].value/2)}% / {Math.floor(skills[index].value/5)}%)</span>
                   </div>
                 )

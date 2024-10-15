@@ -65,3 +65,36 @@ body {
     overflow-y: scroll;
     overflow-x: hidden;
   }
+
+  input.InputLeft {
+    text-align: left;
+  }
+
+  input {
+    text-align: right;
+  }
+
+  input.TransparentInput {
+    background: none;
+    border: none;
+    font-family: 'Texturina';
+    font-weight: 800;
+    font-size: medium;
+    outline: none;
+  }
+
+  textarea.TransparentInput {
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: 'Texturina';
+    font-weight: 800;
+    font-size: medium;
+    width: 100%;
+    overflow: visible;
+    height: 10em;
+  }
+
+  .Wounds {
+    min-height: 10em;
+  }

@@ -108,3 +108,7 @@
     width: 20vw;
     gap: 1em
 }
+
+.Wounds {
+    min-height: 5em;
+}
