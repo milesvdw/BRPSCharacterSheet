@@ -5,13 +5,17 @@
 }
 
 .HealthBar .Health {
+    border-radius: 1em 0 0 1em;
     height: 20px;
     background: linear-gradient(
         to bottom,
         lightgreen 0%,
         darkgreen 100%
     );
-    border-radius: 1em
+}
+
+.HealthBar .Health.Full {
+    border-radius: 1em;
 }
 
 .HealthHeader {
@@ -21,6 +25,7 @@
 }
 
 .HealthBar .Damage {
+    border-radius: 0 1em 1em 0em;
     height: 20px;
     background: linear-gradient(
         to bottom,
@@ -83,8 +88,13 @@
         lightblue 0%,
         darkblue 100%
     );
-    border-radius: 1em
+    border-radius: 1em 0 0 1em;
 }
+
+.HealthBar .Health.Full {
+    border-radius: 1em;
+}
+
 
 .PowerBar .Spent {
     height: 20px;
@@ -95,6 +105,7 @@
         darkgrey 50%,
         darkgrey 100%
     );
+    border-radius: 0 1em 1em 0;
 }
 
 
