@@ -18,6 +18,14 @@ export type InventoryItem = {
     amount: string;
 }
 
+export type Status = {
+    hp: number
+    power: number
+    woundCount: number
+    woundDescription: string
+    luck: number
+}
+
 export const defaultMagicWorld = {
     "personal": {
         "name": "Sorwin",
@@ -62,7 +70,9 @@ export const defaultMagicWorld = {
     "currentStatus": {
         "hp": 9,
         "power": 14,
-        "luck": 9
+        "luck": 9,
+        "woundCount": 1,
+        "woundDescription": ""
     },
     "skills": [
         {

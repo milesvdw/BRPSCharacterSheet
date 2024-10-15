@@ -1,0 +1,110 @@
+.HealthBar {
+    display: flex;
+    flex-direction: row;
+    width: calc(100%-20px);
+}
+
+.HealthBar .Health {
+    height: 20px;
+    background: linear-gradient(
+        to bottom,
+        lightgreen 0%,
+        darkgreen 100%
+    );
+    border-radius: 1em
+}
+
+.HealthHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.HealthBar .Damage {
+    height: 20px;
+    background: linear-gradient(
+        to bottom,
+        pink 0%,
+        darkred 100%
+    );
+}
+
+.fantasy-border {
+    padding: 10px;
+    text-align: center;
+    font-family: 'Times New Roman', serif;
+    font-size: 18px;
+    color: #f3f3f3;
+    background: linear-gradient(135deg, #6a4f32 10%, #453621 40%, #7a5e36 60%, #3a281a 90%);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+  }
+
+  .fantasy-border::before,
+  .fantasy-border::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 4px solid transparent;
+    border-image: linear-gradient(to right, gold, transparent, silver, transparent, gold) 1;
+    border-radius: 10px;
+    z-index: -1;
+  }
+
+  .fantasy-border::before {
+    filter: blur(6px);
+  }
+
+  .fantasy-border::after {
+    filter: blur(2px);
+  }
+
+  .fantasy-border::before,
+  .fantasy-border::after {
+    box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.8), 0 0 10px 5px rgba(255, 223, 0, 0.8);
+  }
+
+
+
+.PowerBar {
+    display: flex;
+    flex-direction: row;
+    width: calc(100%-20px);
+}
+
+
+.PowerBar .Power {
+    height: 20px;
+    background: linear-gradient(
+        to bottom,
+        lightblue 0%,
+        darkblue 100%
+    );
+    border-radius: 1em
+}
+
+.PowerBar .Spent {
+    height: 20px;
+    background: linear-gradient(
+        to bottom,
+        lightgrey 0%,
+        lightgrey 50%,
+        darkgrey 50%,
+        darkgrey 100%
+    );
+}
+
+
+.StatusBlock {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 4px 14px 2px #0003;
+    margin: .5em 0em;
+    border-radius: .8em;
+    padding: 1em;
+    width: 20vw;
+    gap: 1em
+}

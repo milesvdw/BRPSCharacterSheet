@@ -1,7 +1,7 @@
 .Container {
   display: flex;
   flex-direction: column;
-  box-shadow: 4px 4px 14px 2px #0003;
+  box-shadow: 4px 4px 14px 5px #0003;
   margin: .5em 0em;
   border-radius: .8em;
   padding: 1em;

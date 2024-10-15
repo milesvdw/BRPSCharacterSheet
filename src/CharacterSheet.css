@@ -4,6 +4,11 @@
     flex: 1;
 }
 
+.StatBlock {
+    display: flex;
+    flex-direction: column;
+}
+
 .SkillsTable {
     display: flex;
     flex-direction: row;

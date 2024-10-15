@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import CharacterSheetContext, { CharacterSheetData } from './CharacterSheetContext';
 import SkillBlock from './SkillBlock/SkillBlock';
 import './CharacterSheet.css'
-import { InventoryItem, Power, Skill } from './DefaultCharacterSheets';
+import { InventoryItem, Power, Skill, Status } from './DefaultCharacterSheets';
 import Collapsible from './Collapsible/Collapsible';
 import Inventory from './Inventory/Inventory';
 import PowerBlock from './PowerBlock/PowerBlock';
@@ -11,6 +11,7 @@ import IconButton from './IconButton/IconButton';
 import Upload from './Icons/Upload';
 import Download from './Icons/Download';
 import BaseStats from './BaseStats/BaseStats';
+import StatusBlock from './StatusBlock/StatusBlock';
 
 // Define the state interface for the component
 interface CharacterSheetState {
@@ -42,6 +43,12 @@ class CharacterSheet extends Component<{}, CharacterSheetState> {
   updatePower = (index: number, power: Power) => {
     const oldContext = this.context?.value!;
     oldContext.powers[index] = power;
+    this.context?.updateValue(oldContext);
+  }
+
+  updateStatus = (status: Status) => {
+    const oldContext = this.context?.value!;
+    oldContext.currentStatus = status;
     this.context?.updateValue(oldContext);
   }
 
@@ -128,11 +135,16 @@ class CharacterSheet extends Component<{}, CharacterSheetState> {
 
           <Collapsible title="Stats">
             <div className="SkillsTable">
-              <div className="SkillBlocks">
+              <div className="StatBlock">
                 <BaseStats
                   stats={this.context?.value.characteristics.base!} />
               </div>
-              <div className="SkillBlocks">
+              <div className="StatBlock">
+                <StatusBlock
+                  updateStatus={this.updateStatus}
+                  status={this.context?.value.currentStatus!}
+                  stats={this.context?.value.characteristics.base!}
+                  derived={this.context?.value.characteristics.derived!} />
               </div>
             </div>
           </Collapsible>
